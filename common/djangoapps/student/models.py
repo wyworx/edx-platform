@@ -913,6 +913,16 @@ class LoginFailures(models.Model):
         record.save()
 
     @classmethod
+    def check_user_reset_password_threshold(cls, user):
+        """
+        Checks if the user is above threshold for reset password message.
+        """
+        record, _ = LoginFailures.objects.get_or_create(user=user)
+        max_failures_allowed = settings.MAX_FAILED_LOGIN_ATTEMPTS_ALLOWED
+
+        return True if record.failure_count >= max_failures_allowed / 2 else False
+
+    @classmethod
     def clear_lockout_counter(cls, user):
         """
         Removes the lockout counters (normally called after a successful login)

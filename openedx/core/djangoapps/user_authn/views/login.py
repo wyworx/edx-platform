@@ -113,8 +113,13 @@ def _check_excessive_login_attempts(user):
     """
     if user and LoginFailures.is_feature_enabled():
         if LoginFailures.is_user_locked_out(user):
-            raise AuthFailedError(_('This account has been temporarily locked due '
-                                    'to excessive login failures. Try again later.'))
+            raise AuthFailedError(Text(_('This account has been temporarily locked due '
+                                         'to excessive login failures. Try again later. '
+                                         'To be on the safe side you can use password '
+                                         'reset {link_start}link{link_end} to request password change '
+                                         'before next login attempt.'))
+                                  .format(link_start=HTML('<a http="#" class="forgot-password field-link">'),
+                                          link_end=HTML('</a>')))
 
 
 def _enforce_password_policy_compliance(request, user):
@@ -229,6 +234,18 @@ def _handle_failed_authentication(user, authenticated_user):
             AUDIT_LOG.warning(u"Login failed - password for user.id: {0} is invalid".format(loggable_id))
         else:
             AUDIT_LOG.warning(u"Login failed - password for {0} is invalid".format(user.email))
+
+    if user:
+        if LoginFailures.check_user_reset_password_threshold(user):
+            if not LoginFailures.is_user_locked_out(user):
+                raise AuthFailedError(Text(_('Email or password is incorrect. To avoid being '
+                                             'temporarily locked out of system, you can use password reset '
+                                             '{link_start}link{link_end} to request a password change.'
+                                             ))
+                                      .format(link_start=HTML('<a http="#" class="forgot-password field-link">'),
+                                              link_end=HTML('</a>')))
+            else:
+                _check_excessive_login_attempts(user)
 
     raise AuthFailedError(_('Email or password is incorrect.'))
 
