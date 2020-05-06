@@ -920,7 +920,7 @@ class LoginFailures(models.Model):
         record, _ = LoginFailures.objects.get_or_create(user=user)
         max_failures_allowed = settings.MAX_FAILED_LOGIN_ATTEMPTS_ALLOWED
 
-        return True if record.failure_count >= max_failures_allowed / 2 else False
+        return record.failure_count >= max_failures_allowed / 2
 
     @classmethod
     def clear_lockout_counter(cls, user):
