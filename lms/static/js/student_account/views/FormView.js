@@ -163,12 +163,24 @@
                     }
 
                     if (key) {
+                        if(this.interesting_fields($el)){
+                          this.remove_validation_error($el, $form);
+                        }
                         validation = this.validate(elements[i]);
                         if (validation.isValid) {
                             obj[key] = $el.attr('type') === 'checkbox' ? $el.is(':checked') : $el.val();
                             $el.removeClass('error');
                             $label.removeClass('error');
                         } else {
+                            if(this.interesting_fields($el)){
+                              var $validation_node = this.get_error_validation_node($el, $form);
+                              if ($validation_node)
+                                $validation_node.append(validation.message);
+
+                              var $desc = $form.find('#' + $el.attr('id') + '-desc');
+                              $desc.remove();
+                            }
+
                             errors.push(validation.message);
                             $el.addClass('error');
                             $label.addClass('error');
@@ -179,6 +191,19 @@
                 this.errors = _.uniq(errors);
 
                 return obj;
+            },
+            remove_validation_error: function($el, $form) {
+            var $validation_node = this.get_error_validation_node($el, $form);
+              if ($validation_node && $validation_node.find('li').length > 0) {
+                  $validation_node.empty();
+              }
+            },
+            get_error_validation_node: function($el, $form) {
+              return $form.find('#' + $el.attr('id') + '-validation-error-msg');
+            },
+
+            interesting_fields: function($el) {
+             return ($el.attr('name') === 'email' || $el.attr('name') === 'password') ? true: false;
             },
 
             saveError: function(error) {

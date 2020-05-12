@@ -9,6 +9,7 @@ import json
 import logging
 
 import six
+from datetime import datetime, timedelta
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
@@ -113,13 +114,20 @@ def _check_excessive_login_attempts(user):
     """
     if user and LoginFailures.is_feature_enabled():
         if LoginFailures.is_user_locked_out(user):
-            raise AuthFailedError(Text(_('This account has been temporarily locked due '
-                                         'to excessive login failures. Try again later. '
-                                         'To be on the safe side you can use password '
-                                         'reset {link_start}link{link_end} to request password change '
-                                         'before next login attempt.'))
+            locked_out_period_in_sec = settings.MAX_FAILED_LOGIN_ATTEMPTS_LOCKOUT_PERIOD_SECS
+            locked_out_period = datetime.now().replace(hour=0, minute=0, second=0) + \
+                timedelta(seconds=locked_out_period_in_sec)
+
+            raise AuthFailedError(Text(_('To better protect your account, this account has been temporarily locked.'
+                                         '{li_start}Try again later after at least {locked_out_period} minutes.{li_end}'
+                                         '{li_start}To be on the safe side you can use password reset '
+                                         '{link_start}link{link_end} to request password change before next login '
+                                         'attempt.{li_end}'))
                                   .format(link_start=HTML('<a http="#" class="forgot-password field-link">'),
-                                          link_end=HTML('</a>')))
+                                          link_end=HTML('</a>'),
+                                          li_start=HTML('<li>'),
+                                          li_end=HTML('</li>'),
+                                          locked_out_period=locked_out_period.minute))
 
 
 def _enforce_password_policy_compliance(request, user):
@@ -236,14 +244,22 @@ def _handle_failed_authentication(user, authenticated_user):
             AUDIT_LOG.warning(u"Login failed - password for {0} is invalid".format(user.email))
 
     if user:
-        if LoginFailures.check_user_reset_password_threshold(user):
+        blocked_threshold, failure_count = LoginFailures.check_user_reset_password_threshold(user)
+        if blocked_threshold:
             if not LoginFailures.is_user_locked_out(user):
-                raise AuthFailedError(Text(_('Email or password is incorrect. To avoid being '
-                                             'temporarily locked out of system, you can use password reset '
-                                             '{link_start}link{link_end} to request a password change.'
+                max_failures_allowed = settings.MAX_FAILED_LOGIN_ATTEMPTS_ALLOWED
+                remaining_attempts = max_failures_allowed - failure_count
+                raise AuthFailedError(Text(_('Email or password is incorrect.'
+                                             '{li_start}You have {remaining_attempts} more sign-in '
+                                             'attempts before your account is temporarily locked.{li_end}'
+                                             '{li_start}If you\'ve forgotten your password, {link_start}click here'
+                                             '{link_end} to reset.{li_end}'
                                              ))
                                       .format(link_start=HTML('<a http="#" class="forgot-password field-link">'),
-                                              link_end=HTML('</a>')))
+                                              link_end=HTML('</a>'),
+                                              li_start=HTML('<li>'),
+                                              li_end=HTML('</li>'),
+                                              remaining_attempts=remaining_attempts))
             else:
                 _check_excessive_login_attempts(user)
 
