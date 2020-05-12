@@ -1402,6 +1402,9 @@ INSTALLED_APPS = [
     # Catalog integration
     'openedx.core.djangoapps.catalog',
 
+    # Programs support
+    'openedx.core.djangoapps.programs.apps.ProgramsConfig',
+
     # django-oauth-toolkit
     'oauth2_provider',
 
@@ -1478,6 +1481,7 @@ INSTALLED_APPS = [
     # Management of per-user schedules
     'openedx.core.djangoapps.schedules',
     'rest_framework_jwt',
+
 ]
 
 
