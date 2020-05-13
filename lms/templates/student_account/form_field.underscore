@@ -137,7 +137,7 @@
         <div id="login-help" style="display:none">
             <ul>
                 <li>
-                    <button class="forgot-password field-link"><%- gettext("Forgot my password") %></button>
+                    <div class="field-link"><a href="#login" class="form-toggle" data-type="password-reset"><%- gettext("Forgot my password") %></a></div>
                 </li>
                 <li>
                     <div class="field-link"><a href="https://support.edx.org/hc/en-us/sections/115004153367-Solve-a-Sign-in-Problem"><%- gettext("Other sign-in issues") %></a></div>
@@ -150,7 +150,7 @@
         <div id="reset-help" style="display:none">
             <ul>
                 <li>
-                    <div class="field-link"><a href="#login" class="form-toggle" data-type="register"><%- gettext("Create an Account") %></a></div>
+                    <div class="field-link"><a href="#login" class="form-toggle" data-type="register"><%- gettext("Create an account") %></a></div>
                 </li>
                 <li>
                     <div class="field-link"><a href="https://support.edx.org/hc/en-us/sections/115004153367-Solve-a-Sign-in-Problem"><%- gettext("Other sign-in issues") %></a></div>

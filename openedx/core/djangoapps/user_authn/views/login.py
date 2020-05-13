@@ -123,11 +123,12 @@ def _check_excessive_login_attempts(user):
                                          '{li_start}To be on the safe side you can use password reset '
                                          '{link_start}link{link_end} to request password change before next login '
                                          'attempt.{li_end}'))
-                                  .format(link_start=HTML('<a http="#" class="forgot-password field-link">'),
-                                          link_end=HTML('</a>'),
-                                          li_start=HTML('<li>'),
-                                          li_end=HTML('</li>'),
-                                          locked_out_period=locked_out_period.minute))
+                                  .format(
+                link_start=HTML('<a "#login" class="form-toggle" data-type="password-reset">'),
+                link_end=HTML('</a>'),
+                li_start=HTML('<li>'),
+                li_end=HTML('</li>'),
+                locked_out_period=locked_out_period.minute))
 
 
 def _enforce_password_policy_compliance(request, user):
@@ -255,11 +256,12 @@ def _handle_failed_authentication(user, authenticated_user):
                                              '{li_start}If you\'ve forgotten your password, {link_start}click here'
                                              '{link_end} to reset.{li_end}'
                                              ))
-                                      .format(link_start=HTML('<a http="#" class="forgot-password field-link">'),
-                                              link_end=HTML('</a>'),
-                                              li_start=HTML('<li>'),
-                                              li_end=HTML('</li>'),
-                                              remaining_attempts=remaining_attempts))
+                                      .format(
+                    link_start=HTML('<a http="#login" class="form-toggle" data-type="password-reset">'),
+                    link_end=HTML('</a>'),
+                    li_start=HTML('<li>'),
+                    li_end=HTML('</li>'),
+                    remaining_attempts=remaining_attempts))
             else:
                 _check_excessive_login_attempts(user)
 

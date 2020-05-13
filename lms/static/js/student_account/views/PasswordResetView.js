@@ -12,7 +12,7 @@
 
                 events: {
                     'click .js-reset': 'submitForm',
-                    'click .reset-help': 'toggleHelp',
+                    'click .reset-help': 'toggleResetHelp',
                 },
 
                 formType: 'password-reset',
@@ -28,9 +28,8 @@
                     this.listenTo(this.model, 'sync', this.saveSuccess);
                 },
 
-                toggleHelp: function(event){
+                toggleResetHelp: function(event){
                   event.preventDefault();
-                  var $el = $(event.currentTarget);
                   var $help = $('#reset-help');
                   if ( $help.css('display') === "block") {
                     $help.css('display', 'none');

@@ -23,7 +23,7 @@
             events: {
                 'click .js-login': 'submitForm',
                 'click .forgot-password': 'forgotPassword',
-                'click .login-help': 'toggleHelp',
+                'click .login-help': 'toggleLoginHelp',
                 'click .login-provider': 'thirdPartyAuth'
             },
             formType: 'login',
@@ -137,9 +137,8 @@
                 this.trigger('password-help');
                 this.clearPasswordResetSuccess();
             },
-            toggleHelp: function(event){
+            toggleLoginHelp: function(event){
               event.preventDefault();
-              var $el = $(event.currentTarget);
               var $help = $('#login-help');
               if ( $help.css('display') === "block") {
                 $help.css('display', 'none');
