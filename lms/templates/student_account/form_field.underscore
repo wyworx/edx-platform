@@ -133,6 +133,29 @@
     <% } %>
 
     <% if( form === 'login' && name === 'password' ) { %>
-        <button type="button" class="forgot-password field-link"><%- gettext("Need help logging in?") %></button>
+        <button type="button" class="login-help field-link" ><%- gettext("Need help logging in?") %></button>
+        <div id="login-help" style="display:none">
+            <ul>
+                <li>
+                    <button class="forgot-password field-link"><%- gettext("Forgot my password") %></button>
+                </li>
+                <li>
+                    <div class="field-link"><a href="https://support.edx.org/hc/en-us/sections/115004153367-Solve-a-Sign-in-Problem"><%- gettext("Other sign-in issues") %></a></div>
+                </li>
+            </ul>
+        </div>
+    <% } %>
+    <% if( form === 'password-reset' && name === 'email' ) { %>
+        <button type="button" class="reset-help field-link" ><%- gettext("Need other help?") %></button>
+        <div id="reset-help" style="display:none">
+            <ul>
+                <li>
+                    <div class="field-link"><a href="#login" class="form-toggle" data-type="register"><%- gettext("Create an Account") %></a></div>
+                </li>
+                <li>
+                    <div class="field-link"><a href="https://support.edx.org/hc/en-us/sections/115004153367-Solve-a-Sign-in-Problem"><%- gettext("Other sign-in issues") %></a></div>
+                </li>
+            </ul>
+        </div>
     <% } %>
 </div>

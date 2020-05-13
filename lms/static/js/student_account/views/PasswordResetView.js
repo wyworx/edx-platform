@@ -11,7 +11,8 @@
                 tpl: '#password_reset-tpl',
 
                 events: {
-                    'click .js-reset': 'submitForm'
+                    'click .js-reset': 'submitForm',
+                    'click .reset-help': 'toggleHelp',
                 },
 
                 formType: 'password-reset',
@@ -25,6 +26,17 @@
                     this.element.show($(this.el));
                     this.element.show($(this.el).parent());
                     this.listenTo(this.model, 'sync', this.saveSuccess);
+                },
+
+                toggleHelp: function(event){
+                  event.preventDefault();
+                  var $el = $(event.currentTarget);
+                  var $help = $('#reset-help');
+                  if ( $help.css('display') === "block") {
+                    $help.css('display', 'none');
+                  } else {
+                    $help.css('display', 'block');
+                  }
                 },
 
                 saveSuccess: function() {
