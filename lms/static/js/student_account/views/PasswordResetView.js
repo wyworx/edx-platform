@@ -29,13 +29,11 @@
                 },
 
                 toggleResetHelp: function(event){
-                  event.preventDefault();
-                  var $help = $('#reset-help');
-                  if ( $help.css('display') === "block") {
-                    $help.css('display', 'none');
-                  } else {
-                    $help.css('display', 'block');
-                  }
+                    event.preventDefault();
+                    var $el = $(event.currentTarget);
+                    var $i = $el.find('i');
+                    var $help = $('#reset-help');
+                    this.toggleHelp($help, $i);
                 },
 
                 saveSuccess: function() {

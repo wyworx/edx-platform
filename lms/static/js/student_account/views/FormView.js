@@ -193,17 +193,28 @@
                 return obj;
             },
             remove_validation_error: function($el, $form) {
-            var $validation_node = this.get_error_validation_node($el, $form);
-              if ($validation_node && $validation_node.find('li').length > 0) {
-                  $validation_node.empty();
-              }
+                var $validation_node = this.get_error_validation_node($el, $form);
+                if ($validation_node && $validation_node.find('li').length > 0) {
+                    $validation_node.empty();
+                }
             },
+
             get_error_validation_node: function($el, $form) {
-              return $form.find('#' + $el.attr('id') + '-validation-error-msg');
+                return $form.find('#' + $el.attr('id') + '-validation-error-msg');
             },
 
             interesting_fields: function($el) {
-             return ($el.attr('name') === 'email' || $el.attr('name') === 'password') ? true: false;
+                return ($el.attr('name') === 'email' || $el.attr('name') === 'password') ? true: false;
+            },
+
+            toggleHelp: function($help, $i){
+                if ( $help.css('display') === "block") {
+                    $help.css('display', 'none');
+                    $i.addClass('fa-caret-right').removeClass('fa-caret-down');
+                } else {
+                    $help.css('display', 'block');
+                    $i.addClass('fa-caret-down').removeClass('fa-caret-right');
+                }
             },
 
             saveError: function(error) {

@@ -137,14 +137,13 @@
                 this.trigger('password-help');
                 this.clearPasswordResetSuccess();
             },
+
             toggleLoginHelp: function(event){
-              event.preventDefault();
-              var $help = $('#login-help');
-              if ( $help.css('display') === "block") {
-                $help.css('display', 'none');
-              } else {
-                $help.css('display', 'block');
-              }
+                event.preventDefault();
+                var $el = $(event.currentTarget);
+                var $i = $el.find('i');
+                var $help = $('#login-help');
+                this.toggleHelp($help, $i);
             },
 
             postFormSubmission: function() {
