@@ -12,7 +12,7 @@
 
                 events: {
                     'click .js-reset': 'submitForm',
-                    'click .reset-help': 'toggleResetHelp',
+                    'click .reset-help': 'toggleResetHelp'
                 },
 
                 formType: 'password-reset',
@@ -28,9 +28,10 @@
                     this.listenTo(this.model, 'sync', this.saveSuccess);
                 },
 
-                toggleResetHelp: function(event){
+                toggleResetHelp: function(event) {
+                    var $help;
                     event.preventDefault();
-                    var $help = $('#reset-help');
+                    $help = $('#reset-help');
                     this.toggleHelp(event, $help);
                 },
 

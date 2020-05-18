@@ -138,9 +138,10 @@
                 this.clearPasswordResetSuccess();
             },
 
-            toggleLoginHelp: function(event){
+            toggleLoginHelp: function(event) {
+                var $help;
                 event.preventDefault();
-                var $help = $('#login-help');
+                $help = $('#login-help');
                 this.toggleHelp(event, $help);
             },
 

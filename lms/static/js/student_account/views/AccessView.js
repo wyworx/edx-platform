@@ -260,8 +260,9 @@
 
                         // We need a special case for loading reset form as there is mismatch of form id
                         // value ie 'password-reset' vs load function name ie 'reset'
-                        if (type === 'password-reset')
-                          type = 'reset';
+                        if (type === 'password-reset') {
+                            type = 'reset';
+                        }
                         this.loadForm(type);
                     }
                     this.activeForm = type;
