@@ -30,10 +30,8 @@
 
                 toggleResetHelp: function(event){
                     event.preventDefault();
-                    var $el = $(event.currentTarget);
-                    var $i = $el.find('i');
                     var $help = $('#reset-help');
-                    this.toggleHelp($help, $i);
+                    this.toggleHelp(event, $help);
                 },
 
                 saveSuccess: function() {

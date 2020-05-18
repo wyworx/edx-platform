@@ -140,10 +140,8 @@
 
             toggleLoginHelp: function(event){
                 event.preventDefault();
-                var $el = $(event.currentTarget);
-                var $i = $el.find('i');
                 var $help = $('#login-help');
-                this.toggleHelp($help, $i);
+                this.toggleHelp(event, $help);
             },
 
             postFormSubmission: function() {

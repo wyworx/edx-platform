@@ -163,7 +163,7 @@
                     }
 
                     if (key) {
-                        if(this.interesting_fields($el)){
+                        if(this.interesting_fields($el)) {
                           this.remove_validation_error($el, $form);
                         }
                         validation = this.validate(elements[i]);
@@ -172,10 +172,10 @@
                             $el.removeClass('error');
                             $label.removeClass('error');
                         } else {
-                            if(this.interesting_fields($el)){
+                            if(this.interesting_fields($el)) {
                               var $validation_node = this.get_error_validation_node($el, $form);
                               if ($validation_node)
-                                $validation_node.append(validation.message);
+                                HtmlUtils.append($validation_node, validation.message);
 
                               var $desc = $form.find('#' + $el.attr('id') + '-desc');
                               $desc.remove();
@@ -207,7 +207,10 @@
                 return ($el.attr('name') === 'email' || $el.attr('name') === 'password') ? true: false;
             },
 
-            toggleHelp: function($help, $i){
+            toggleHelp: function(event, $help){
+                var $el = $(event.currentTarget);
+                var $i = $el.find('i');
+
                 if ( $help.css('display') === "block") {
                     $help.css('display', 'none');
                     $i.addClass('fa-caret-right').removeClass('fa-caret-down');
