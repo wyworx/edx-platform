@@ -246,7 +246,7 @@ def _handle_failed_authentication(user, authenticated_user):
 
     if user:
         blocked_threshold, failure_count = LoginFailures.check_user_reset_password_threshold(user)
-        if blocked_threshold:
+        if LoginFailures.is_feature_enabled() and blocked_threshold:
             if not LoginFailures.is_user_locked_out(user):
                 max_failures_allowed = settings.MAX_FAILED_LOGIN_ATTEMPTS_ALLOWED
                 remaining_attempts = max_failures_allowed - failure_count
