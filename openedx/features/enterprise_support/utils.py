@@ -7,6 +7,7 @@ import json
 
 from crum import get_current_request
 from django.conf import settings
+from django.urls import NoReverseMatch, reverse
 from django.utils.translation import ugettext as _
 from edx_django_utils.cache import TieredCache, get_cache_key
 from enterprise.models import EnterpriseCustomerUser
@@ -315,3 +316,13 @@ def is_enterprise_learner(user):
         (bool): True if given user is an enterprise learner.
     """
     return EnterpriseCustomerUser.objects.filter(user_id=user.id).exists()
+
+
+def get_enterprise_slug_login_url():
+    """
+    Return the enterprise slug login's URL (enterprise/login) if it exists otherwise None
+    """
+    try:
+        return reverse('enterprise_slug_login')
+    except NoReverseMatch:
+        return None
