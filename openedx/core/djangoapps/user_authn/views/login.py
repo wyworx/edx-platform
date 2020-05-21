@@ -115,11 +115,9 @@ def _check_excessive_login_attempts(user):
     if user and LoginFailures.is_feature_enabled():
         if LoginFailures.is_user_locked_out(user):
             locked_out_period_in_sec = settings.MAX_FAILED_LOGIN_ATTEMPTS_LOCKOUT_PERIOD_SECS
-            locked_out_period = datetime.now().replace(hour=0, minute=0, second=0) + \
-                timedelta(seconds=locked_out_period_in_sec)
 
-            raise AuthFailedError(Text(_('To better protect your account, this account has been temporarily locked.'
-                                         '{li_start}Try again later after at least {locked_out_period} minutes.{li_end}'
+            raise AuthFailedError(Text(_('To better protect your account, this account has been temporarily locked. '
+                                         'Try again later after {locked_out_period} minutes.'
                                          '{li_start}To be on the safe side you can use password reset '
                                          '{link_start}link{link_end} to request password change before next login '
                                          'attempt.{li_end}'))
@@ -128,7 +126,7 @@ def _check_excessive_login_attempts(user):
                 link_end=HTML('</a>'),
                 li_start=HTML('<li>'),
                 li_end=HTML('</li>'),
-                locked_out_period=locked_out_period.minute))
+                locked_out_period=int(locked_out_period_in_sec / 60)))
 
 
 def _enforce_password_policy_compliance(request, user):
