@@ -8,6 +8,7 @@ from ..data import (
     CourseOutlineData, CourseSectionData, CourseLearningSequenceData, VisibilityData
 )
 
+
 class TestCourseOutlineData(TestCase):
     """
     Simple set of tests for data class validations.

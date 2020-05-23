@@ -1001,8 +1001,10 @@ if 'openedx.testing.coverage_context_listener' in settings.INSTALLED_APPS:
 urlpatterns.append(
     url(
         r'^api/learning_sequences/',
-        include(('openedx.core.djangoapps.content.learning_sequences.urls', 'learning_sequences'),
-        namespace='learning_sequences'),
+        include(
+            ('openedx.core.djangoapps.content.learning_sequences.urls', 'learning_sequences'),
+            namespace='learning_sequences'
+        ),
     ),
 )
 

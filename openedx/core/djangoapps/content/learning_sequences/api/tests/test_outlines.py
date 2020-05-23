@@ -299,7 +299,6 @@ class ScheduleTestCase(CacheIsolationTestCase):
         assert self.seq_inherit_key in student_details.outline.accessible_sequences
 
 
-
 class VisbilityTestCase(CacheIsolationTestCase):
     """
     Visibility-related tests.

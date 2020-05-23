@@ -26,6 +26,7 @@ from .api.data import ScheduleData, UserCourseOutlineData
 User = get_user_model()
 log = logging.getLogger(__name__)
 
+
 @method_decorator(transaction.non_atomic_requests, name='dispatch')
 class CourseOutlineView(APIView):
     """

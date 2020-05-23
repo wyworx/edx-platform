@@ -26,6 +26,7 @@ from ..api import replace_course_outline
 from ..api.data import CourseOutlineData
 from ..api.tests.test_data import generate_sections
 
+
 class CourseOutlineViewTest(APITestCase):
 
     @classmethod

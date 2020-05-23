@@ -60,12 +60,12 @@ def get_course_outline(course_key: CourseKey) -> CourseOutlineData:
     # represented (so query CourseSection explicitly instead of relying only on
     # select_related from CourseSectionSequence).
     section_models = CourseSection.objects \
-                         .filter(learning_context=learning_context) \
-                         .order_by('ordering')
+        .filter(learning_context=learning_context) \
+        .order_by('ordering')
     section_sequence_models = CourseSectionSequence.objects \
-                                  .filter(learning_context=learning_context) \
-                                  .order_by('ordering') \
-                                  .select_related('sequence')
+        .filter(learning_context=learning_context) \
+        .order_by('ordering') \
+        .select_related('sequence')
 
     # Build mapping of section.id keys to sequence lists.
     sec_ids_to_sequence_list = defaultdict(list)
@@ -123,6 +123,7 @@ def _get_learning_context_for_outline(course_key: CourseKey) -> LearningContext:
         )
     return learning_context
 
+
 def get_user_course_outline(course_key: CourseKey,
                             user: User,
                             at_time: datetime) -> UserCourseOutlineData:
@@ -137,6 +138,7 @@ def get_user_course_outline(course_key: CourseKey,
     """
     user_course_outline, _ = _get_user_course_outline_and_processors(course_key, user, at_time)
     return user_course_outline
+
 
 def get_user_course_outline_details(course_key: CourseKey,
                                     user: User,
@@ -156,6 +158,7 @@ def get_user_course_outline_details(course_key: CourseKey,
         outline=user_course_outline,
         schedule=schedule_processor.schedule_data(user_course_outline)
     )
+
 
 def _get_user_course_outline_and_processors(course_key: CourseKey,
                                             user: User,
