@@ -61,10 +61,10 @@ def get_course_outline(course_key: CourseKey) -> CourseOutlineData:
     # select_related from CourseSectionSequence).
     section_models = CourseSection.objects \
                          .filter(learning_context=learning_context) \
-                         .order_by('order')
+                         .order_by('ordering')
     section_sequence_models = CourseSectionSequence.objects \
                                   .filter(learning_context=learning_context) \
-                                  .order_by('order') \
+                                  .order_by('ordering') \
                                   .select_related('sequence')
 
     # Build mapping of section.id keys to sequence lists.
@@ -256,13 +256,13 @@ def _update_learning_context(course_outline: CourseOutlineData):
 
 def _update_sections(course_outline: CourseOutlineData, learning_context: LearningContext):
     # Add/update relevant sections...
-    for order, section_data in enumerate(course_outline.sections):
+    for ordering, section_data in enumerate(course_outline.sections):
         CourseSection.objects.update_or_create(
             learning_context=learning_context,
             usage_key=section_data.usage_key,
             defaults={
                 'title': section_data.title,
-                'order': order,
+                'ordering': ordering,
                 'hide_from_toc': section_data.visibility.hide_from_toc,
                 'visible_to_staff_only': section_data.visibility.visible_to_staff_only,
             }
@@ -303,7 +303,7 @@ def _update_course_section_sequences(course_outline: CourseOutlineData, learning
         in LearningSequence.objects.filter(learning_context=learning_context).all()
     }
 
-    order = 0
+    ordering = 0
     for section_data in course_outline.sections:
         for sequence_data in section_data.sequences:
             CourseSectionSequence.objects.update_or_create(
@@ -311,9 +311,9 @@ def _update_course_section_sequences(course_outline: CourseOutlineData, learning
                 section=section_models[section_data.usage_key],
                 sequence=sequence_models[sequence_data.usage_key],
                 defaults={
-                    'order': order,
+                    'ordering': ordering,
                     'hide_from_toc': sequence_data.visibility.hide_from_toc,
                     'visible_to_staff_only': sequence_data.visibility.visible_to_staff_only,
                 },
             )
-            order += 1
+            ordering += 1

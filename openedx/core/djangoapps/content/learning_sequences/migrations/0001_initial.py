@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             name='CourseSection',
             fields=[
                 ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('order', models.PositiveIntegerField()),
+                ('ordering', models.PositiveIntegerField()),
                 ('usage_key', opaque_keys.edx.django.models.UsageKeyField(max_length=255)),
                 ('title', models.CharField(max_length=1000)),
                 ('hide_from_toc', models.BooleanField(default=False)),
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
             name='CourseSectionSequence',
             fields=[
                 ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('order', models.PositiveIntegerField()),
+                ('ordering', models.PositiveIntegerField()),
                 ('hide_from_toc', models.BooleanField(default=False)),
                 ('visible_to_staff_only', models.BooleanField(default=False)),
                 ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
@@ -95,7 +95,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='coursesectionsequence',
-            unique_together={('learning_context', 'order')},
+            unique_together={('learning_context', 'ordering')},
         ),
         migrations.AlterUniqueTogether(
             name='coursesection',
@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterIndexTogether(
             name='coursesection',
-            index_together={('learning_context', 'order')},
+            index_together={('learning_context', 'ordering')},
         ),
 
         # Custom code: Convert columns to utf8_bin because we want to allow

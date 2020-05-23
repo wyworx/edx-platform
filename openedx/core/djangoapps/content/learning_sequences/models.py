@@ -135,14 +135,14 @@ class CourseSection(CourseContentVisibilityMixin, TimeStampedModel):
     title = models.CharField(max_length=1000)
 
     # What is our position within the Course? (starts with 0)
-    order = models.PositiveIntegerField(null=False)
+    ordering = models.PositiveIntegerField(null=False)
 
     class Meta:
         unique_together = [
             ['learning_context', 'usage_key'],
         ]
         index_together = [
-            ['learning_context', 'order'],
+            ['learning_context', 'ordering'],
         ]
 
 
@@ -170,9 +170,9 @@ class CourseSectionSequence(CourseContentVisibilityMixin, TimeStampedModel):
 
     # Ordering, starts with 0, but global for the course. So if you had 200
     # sequences across 20 sections, the numbering here would be 0-199.
-    order = models.PositiveIntegerField(null=False)
+    ordering = models.PositiveIntegerField(null=False)
 
     class Meta:
         unique_together = [
-            ['learning_context', 'order'],
+            ['learning_context', 'ordering'],
         ]
