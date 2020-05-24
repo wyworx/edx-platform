@@ -171,11 +171,12 @@ def _get_user_course_outline_and_processors(course_key: CourseKey,
     # released. These do not need to be run for staff users. This is where we
     # would add in pluggability for OutlineProcessors down the road.
     processor_classes = [
-#        ('content_gating', ContentGatingOutlineProcessor),
-#        ('milestones', MilestonesOutlineProcessor),
-#        ('user_partitions', UserPartitionsOutlineProcessor),
         ('schedule', ScheduleOutlineProcessor),
         ('visibility', VisibilityOutlineProcessor),
+        # Future:
+        # ('content_gating', ContentGatingOutlineProcessor),
+        # ('milestones', MilestonesOutlineProcessor),
+        # ('user_partitions', UserPartitionsOutlineProcessor),
     ]
 
     # Run each OutlineProcessor in order to figure out what items we have to
