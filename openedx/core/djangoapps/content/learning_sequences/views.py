@@ -7,8 +7,6 @@ import json
 import logging
 
 from django.contrib.auth import get_user_model
-from django.db import transaction
-from django.utils.decorators import method_decorator
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
 from edx_rest_framework_extensions.auth.session.authentication import SessionAuthenticationAllowInactiveUser
 from opaque_keys import InvalidKeyError
@@ -27,7 +25,6 @@ User = get_user_model()
 log = logging.getLogger(__name__)
 
 
-@method_decorator(transaction.non_atomic_requests, name='dispatch')
 class CourseOutlineView(APIView):
     """
     Display all CourseOutline information for a given user.

@@ -27,7 +27,7 @@ from ..api.data import CourseOutlineData
 from ..api.tests.test_data import generate_sections
 
 
-class CourseOutlineViewTest(APITestCase):
+class CourseOutlineViewTest(CacheIsolationTestCase, APITestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -49,6 +49,7 @@ class CourseOutlineViewTest(APITestCase):
         replace_course_outline(cls.outline)
 
     def setUp(self):
+        super().setUp()
         self.client = APIClient()
 
     @classmethod
