@@ -149,6 +149,13 @@
                     options: options.language_options,
                     helpMessage: '',
                     persistChanges: true
+                }),
+              
+                new FieldsView.ReadonlyFieldView({
+                  model: accountSettingsModel,
+                  screenReaderTitle: gettext('Full Name'),
+                  valueAttribute: 'name',
+                  helpMessage: ''
                 })
             ];
 
