@@ -115,6 +115,12 @@ define(
                         model: accountSettingsModel,
                         valueAttribute: 'date_joined',
                         helpMessage: ''
+                    }),
+
+                    new FieldViews.DateFieldView({
+                        model: accountSettingsModel,
+                        valueAttribute: 'money_earned',
+                        helpMessage: ''
                     })
                 ];
 

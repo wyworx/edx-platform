@@ -13,6 +13,8 @@ BIO_MAX_LENGTH = 300
 NAME_MIN_LENGTH = 1
 NAME_MAX_LENGTH = 255
 
+PUBLIC_ADDRESS_MIN_LENGTH = 3
+
 # The minimum and maximum length for the username account field
 USERNAME_MIN_LENGTH = 2
 USERNAME_MAX_LENGTH = 30

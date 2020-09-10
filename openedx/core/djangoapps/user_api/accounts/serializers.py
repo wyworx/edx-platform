@@ -28,6 +28,7 @@ from . import (
     BIO_MAX_LENGTH,
     CUSTOM_VISIBILITY,
     NAME_MIN_LENGTH,
+    PUBLIC_ADDRESS_MIN_LENGTH,
     PRIVATE_VISIBILITY,
     VISIBILITY_PREFIX
 )
@@ -152,6 +153,8 @@ class UserReadOnlySerializer(serializers.Serializer):
             "social_links": None,
             "extended_profile_fields": None,
             "phone_number": None,
+            "money_earned": 0.00,
+            "public_address": None
         }
 
         if user_profile:
@@ -181,6 +184,8 @@ class UserReadOnlySerializer(serializers.Serializer):
                     ).data,
                     "extended_profile": get_extended_profile(user_profile),
                     "phone_number": user_profile.phone_number,
+                    "money_earned": user_profile.money_earned,
+                    "public_address": user_profile.public_address
                 }
             )
 
@@ -242,7 +247,7 @@ class AccountLegacyProfileSerializer(serializers.HyperlinkedModelSerializer, Rea
         fields = (
             "name", "gender", "goals", "year_of_birth", "level_of_education", "country", "state", "social_links",
             "mailing_address", "bio", "profile_image", "requires_parental_consent", "language_proficiencies",
-            "phone_number"
+            "phone_number", "public_address"
         )
         # Currently no read-only field, but keep this so view code doesn't need to know.
         read_only_fields = ()
@@ -263,6 +268,14 @@ class AccountLegacyProfileSerializer(serializers.HyperlinkedModelSerializer, Rea
                 u"The name field must be at least {} character long.".format(NAME_MIN_LENGTH)
             )
         return new_name
+
+    def validate_public_address(self, new_public_address):
+        """ Enforce minimum length for public_address. """
+        if len(new_public_address) < PUBLIC_ADDRESS_MIN_LENGTH:
+            raise serializers.ValidationError(
+                "The public address field must be at least {} characters long.".format(PUBLIC_ADDRESS_MIN_LENGTH)
+            )
+        return new_public_address
 
     def validate_language_proficiencies(self, value):
         """

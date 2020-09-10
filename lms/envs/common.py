@@ -3311,6 +3311,8 @@ ACCOUNT_VISIBILITY_CONFIGURATION["admin_fields"] = (
         "secondary_email_enabled",
         "year_of_birth",
         "phone_number",
+        "money_earned",
+        "public_address",
     ]
 )
 

@@ -39,7 +39,7 @@
                 aboutSectionMessageType, aboutSectionMessage, fullnameFieldView, countryFieldView,
                 fullNameFieldData, emailFieldData, secondaryEmailFieldData, countryFieldData, additionalFields,
                 fieldItem, emailFieldViewIndex, focusId,
-                tabIndex = 0;
+                tabIndex = 0, publicAddressFieldData, publicAddressFieldView;
 
             $accountSettingsElement = $('.wrapper-account-settings');
 
@@ -112,6 +112,23 @@
                 };
             }
 
+            publicAddressFieldData = {
+                model: userAccountModel,
+                title: gettext('BSV Address'),
+                valueAttribute: 'public_address',
+                helpMessage: gettext('Your BSV public address.'),
+                persistChanges: true
+            };
+            if (syncLearnerProfileData && enterpriseReadonlyAccountFields.fields.indexOf('public_address') !== -1) {
+                publicAddressFieldView = {
+                    view: new AccountSettingsFieldViews.ReadonlyFieldView(publicAddressFieldData)
+                };
+            } else {
+                publicAddressFieldView = {
+                    view: new AccountSettingsFieldViews.TextFieldView(publicAddressFieldData)
+                };
+            }
+
             countryFieldData = {
                 model: userAccountModel,
                 required: true,
@@ -155,6 +172,7 @@
                             })
                         },
                         fullnameFieldView,
+                        publicAddressFieldView,
                         emailFieldView,
                         {
                             view: new AccountSettingsFieldViews.PasswordFieldView({

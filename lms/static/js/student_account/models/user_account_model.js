@@ -26,7 +26,9 @@
                 accomplishments_shared: false,
                 default_public_account_fields: [],
                 extended_profile: [],
-                secondary_email: ''
+                secondary_email: '',
+                money_earned: 0.00,
+                public_address: ''
             },
 
             parse: function(response) {

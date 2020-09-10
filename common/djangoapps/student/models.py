@@ -564,6 +564,8 @@ class UserProfile(models.Model):
     profile_image_uploaded_at = models.DateTimeField(null=True, blank=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d*$', message="Phone number can only contain numbers.")
     phone_number = models.CharField(validators=[phone_regex], blank=True, null=True, max_length=50)
+    money_earned = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
+    public_address = models.TextField(blank=True, null=True, max_length=60)
 
     @property
     def has_profile_image(self):
