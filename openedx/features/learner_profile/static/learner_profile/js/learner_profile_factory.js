@@ -114,6 +114,15 @@
                     ownProfile: options.own_profile
                 }),
 
+                new FieldsView.ReadonlyFieldView({
+                    title: gettext('Money Earned'),
+                    titleVisible: true,
+                    model: accountSettingsModel,
+                    screenReaderTitle: gettext('Money Earned'),
+                    valueAttribute: 'money_earned',
+                    helpMessage: ''
+                }),
+
                 new FieldsView.DateFieldView({
                     title: gettext('Joined'),
                     titleVisible: true,

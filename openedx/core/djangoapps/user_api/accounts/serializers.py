@@ -24,7 +24,7 @@ from openedx.core.djangoapps.user_api.serializers import ReadOnlyFieldsSerialize
 from student.models import UserProfile, LanguageProficiency, SocialLink
 
 from . import (
-    NAME_MIN_LENGTH, ACCOUNT_VISIBILITY_PREF_KEY, PRIVATE_VISIBILITY,
+    NAME_MIN_LENGTH, PUBLIC_ADDRESS_MIN_LENGTH, ACCOUNT_VISIBILITY_PREF_KEY, PRIVATE_VISIBILITY,
     ALL_USERS_VISIBILITY,
 )
 from .image_helpers import get_profile_image_urls_for_user
@@ -137,6 +137,8 @@ class UserReadOnlySerializer(serializers.Serializer):
             "account_privacy": self.configuration.get('default_visibility'),
             "social_links": None,
             "extended_profile_fields": None,
+            "money_earned": 0.00,
+            "public_address": None
         }
 
         if user_profile:
@@ -164,6 +166,8 @@ class UserReadOnlySerializer(serializers.Serializer):
                         user_profile.social_links.all(), many=True
                     ).data,
                     "extended_profile": get_extended_profile(user_profile),
+                    "money_earned": user_profile.money_earned,
+                    "public_address": user_profile.public_address 
                 }
             )
 
@@ -223,7 +227,8 @@ class AccountLegacyProfileSerializer(serializers.HyperlinkedModelSerializer, Rea
         model = UserProfile
         fields = (
             "name", "gender", "goals", "year_of_birth", "level_of_education", "country", "social_links",
-            "mailing_address", "bio", "profile_image", "requires_parental_consent", "language_proficiencies"
+            "mailing_address", "bio", "profile_image", "requires_parental_consent", "language_proficiencies",
+            "public_address"
         )
         # Currently no read-only field, but keep this so view code doesn't need to know.
         read_only_fields = ()
@@ -236,6 +241,14 @@ class AccountLegacyProfileSerializer(serializers.HyperlinkedModelSerializer, Rea
                 "The name field must be at least {} characters long.".format(NAME_MIN_LENGTH)
             )
         return new_name
+
+    def validate_public_address(self, new_public_address):
+        """ Enforce minimum length for public_address. """
+        if len(new_public_address) < PUBLIC_ADDRESS_MIN_LENGTH:
+            raise serializers.ValidationError(
+                "The public address field must be at least {} characters long.".format(PUBLIC_ADDRESS_MIN_LENGTH)
+            )
+        return new_public_address
 
     def validate_language_proficiencies(self, value):
         """

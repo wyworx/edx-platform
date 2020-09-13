@@ -244,6 +244,14 @@ def validate_name(name):
     if contains_html(name):
         raise forms.ValidationError(_('Full Name cannot contain the following characters: < >'))
 
+def validate_public_address(public_address):
+    """
+        Verifies the public address is valid, raises a ValidationError otherwise.
+        Args:
+            public_address (unicode): The public_address to validate.
+        """
+    if len(public_address) < 25 or len(public_address) > 35:
+        raise forms.ValidationError(_('Public address is invalid'))
 
 class UsernameField(forms.CharField):
     """

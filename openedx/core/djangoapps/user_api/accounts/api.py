@@ -159,6 +159,12 @@ def update_account_settings(requesting_user, update, username=None):
         changing_full_name = True
         old_name = existing_user_profile.name
 
+    changing_public_address = False
+    old_public_address = None
+    if "public_address" in update:
+        changing_public_address = True
+        old_public_address = existing_user_profile.public_address
+
     changing_secondary_email = False
     if "secondary_email" in update:
         changing_secondary_email = True
@@ -222,6 +228,16 @@ def update_account_settings(requesting_user, update, username=None):
                 "user_message": err.message
             }
 
+    # If the user asked to change public address, validate it
+    if changing_public_address:
+        try:
+            student_forms.validate_public_address(update['public_address'])
+        except ValidationError as err:
+            field_errors["public_address"] = {
+                "developer_message": u"Error thrown from validate_public_address: '{}'".format(err.message),
+                "user_message": err.message
+            }
+
     # If we have encountered any validation errors, return them to the user.
     if field_errors:
         raise errors.AccountValidationError(field_errors)
@@ -263,6 +279,20 @@ def update_account_settings(requesting_user, update, username=None):
             meta['old_names'].append([
                 old_name,
                 u"Name change requested through account API by {0}".format(requesting_user.username),
+                datetime.datetime.now(UTC).isoformat()
+            ])
+            existing_user_profile.set_meta(meta)
+            existing_user_profile.save()
+
+        # If the public_address was changed, store information about the change operation. This is outside of the
+        # serializer so that we can store who requested the change.
+        if old_public_address:
+            meta = existing_user_profile.get_meta()
+            if 'old_public_addresses' not in meta:
+                meta['old_public_addresses'] = []
+            meta['old_public_addresses'].append([
+                old_public_address,
+                u"Public address change requested through account API by {0}".format(requesting_user.username),
                 datetime.datetime.now(UTC).isoformat()
             ])
             existing_user_profile.set_meta(meta)

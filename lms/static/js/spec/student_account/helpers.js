@@ -105,7 +105,9 @@ define(['underscore'], function(_) {
         social_links: [{platform: 'facebook', social_link: 'https://www.facebook.com/edX'}],
         language_proficiencies: [{code: '1'}],
         profile_image: PROFILE_IMAGE,
-        accomplishments_shared: false
+        accomplishments_shared: false,
+        money_earned: 0.00,
+        public_address: null 
     };
     var DEFAULT_USER_PREFERENCES_DATA = {
         'pref-lang': '2',
