@@ -473,6 +473,8 @@ class UserProfile(models.Model):
     allow_certificate = models.BooleanField(default=1)
     bio = models.CharField(blank=True, null=True, max_length=3000, db_index=False)
     profile_image_uploaded_at = models.DateTimeField(null=True, blank=True)
+    money_earned = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
+    public_address = models.TextField(blank=True, null=True, max_length=60)
 
     @property
     def has_profile_image(self):
