@@ -82,8 +82,8 @@ class CourseOverview(TimeStampedModel):
     # Grading
     lowest_passing_grade = DecimalField(max_digits=5, decimal_places=2, null=True)
 
-    incentive_amount = DecimalField(max_digits=5, decimal_places=2, null=True)
-    budget_amount = DecimalField(max_digits=7, decimal_places=2, null=True)
+    # incentive_amount = DecimalField(max_digits=5, decimal_places=2, null=True)
+    # budget_amount = DecimalField(max_digits=7, decimal_places=2, null=True)
 
     # Access parameters
     days_early_for_beta = FloatField(null=True)
@@ -136,8 +136,8 @@ class CourseOverview(TimeStampedModel):
         except ValueError:
             lowest_passing_grade = None
 
-        incentive_amount = course.incentive_amount
-        budget_amount = course.budget_amount
+        # incentive_amount = course.incentive_amount
+        # budget_amount = course.budget_amount
 
         display_name = course.display_name
         start = course.start
@@ -183,8 +183,8 @@ class CourseOverview(TimeStampedModel):
         course_overview.cert_name_long = course.cert_name_long
         course_overview.certificate_available_date = course.certificate_available_date
         course_overview.lowest_passing_grade = lowest_passing_grade
-        course_overview.incentive_amount = incentive_amount
-        course_overview.budget_amount = budget_amount
+        # course_overview.incentive_amount = incentive_amount
+        # course_overview.budget_amount = budget_amount
         course_overview.end_of_course_survey_url = course.end_of_course_survey_url
 
         course_overview.days_early_for_beta = course.days_early_for_beta
