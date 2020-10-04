@@ -30,6 +30,8 @@ from student.message_types import AccountRecovery as AccountRecoveryMessage, Pas
 from student.models import AccountRecovery, CourseEnrollmentAllowed, email_exists_or_retired
 from util.password_policy_validators import validate_password
 
+import requests
+import json
 
 def send_password_reset_email_for_user(user, request, preferred_email=None):
     """
@@ -111,7 +113,7 @@ class PasswordResetFormNoActive(PasswordResetForm):
         Validates that a user exists with the given email address.
         """
         email = self.cleaned_data["email"]
-        #The line below contains the only change, removing is_active=True
+        # The line below contains the only change, removing is_active=True
         self.users_cache = User.objects.filter(email__iexact=email)
         if not len(self.users_cache):
             raise forms.ValidationError(self.error_messages['unknown'])
@@ -187,6 +189,7 @@ class TrueCheckbox(widgets.CheckboxInput):
     """
     A checkbox widget that only accepts "true" (case-insensitive) as true.
     """
+
     def value_from_datadict(self, data, files, name):
         value = data.get(name, '')
         return value.lower() == 'true'
@@ -244,14 +247,19 @@ def validate_name(name):
     if contains_html(name):
         raise forms.ValidationError(_('Full Name cannot contain the following characters: < >'))
 
+
 def validate_public_address(public_address):
     """
         Verifies the public address is valid, raises a ValidationError otherwise.
         Args:
             public_address (unicode): The public_address to validate.
         """
-    if len(public_address) < 25 or len(public_address) > 35:
+    request_url = "https://api.whatsonchain.com/v1/bsv/main/address/{}/info".format(public_address)
+    r = requests.get(request_url)
+    data = json.loads(r.text)
+    if not data['isvalid']:
         raise forms.ValidationError(_('Public address is invalid'))
+
 
 class UsernameField(forms.CharField):
     """
@@ -317,12 +325,12 @@ class AccountCreationForm(forms.Form):
     )
 
     def __init__(
-            self,
-            data=None,
-            extra_fields=None,
-            extended_profile_fields=None,
-            do_third_party_auth=True,
-            tos_required=True
+        self,
+        data=None,
+        extra_fields=None,
+        extended_profile_fields=None,
+        do_third_party_auth=True,
+        tos_required=True
     ):
         super(AccountCreationForm, self).__init__(data)
 
