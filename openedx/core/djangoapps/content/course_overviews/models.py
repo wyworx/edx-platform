@@ -137,9 +137,9 @@ class CourseOverview(TimeStampedModel):
         except ValueError:
             lowest_passing_grade = None
 
-        incentive_amount = course.incentive_amount
-        budget_amount = course.budget_amount
-        budget_remaining_amount = course.budget_remaining_amount
+        incentive_amount = 0.00
+        budget_amount = 0.00
+        budget_remaining_amount = 0.00
 
         display_name = course.display_name
         start = course.start
