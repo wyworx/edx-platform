@@ -254,6 +254,10 @@ def validate_public_address(public_address):
         Args:
             public_address (unicode): The public_address to validate.
         """
+    
+    if len(public_address) < 25 or len(public_address) > 35:
+       raise forms.ValidationError(_('Public address is invalid'))
+    
     request_url = "https://api.whatsonchain.com/v1/bsv/main/address/{}/info".format(public_address)
     r = requests.get(request_url)
     data = json.loads(r.text)
