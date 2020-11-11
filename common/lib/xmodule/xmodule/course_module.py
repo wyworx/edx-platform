@@ -689,6 +689,30 @@ class CourseFields(object):
         ),
         scope=Scope.settings
     )
+    
+    incentive_amount = Float(
+        display_name=_("Incentive Amount"),
+        help=_(
+            "Enter the amount learners earn when they complete the course."
+        ),
+        scope=Scope.settings
+    )
+
+    budget_amount = Float(
+        display_name=_("Budget Amount"),
+        help=_(
+            "Enter the budget amount for the course."
+        ),
+        scope=Scope.settings
+    )
+
+    budget_remaining_amount = Float(
+        display_name=_("Budget Remaining Amount"),
+        help=_(
+            "Enter the budget remaining amount for the course.  Initially, this should be equal to the Budget Amount."
+        ),
+        scope=Scope.settings
+    )
 
     allow_public_wiki_access = Boolean(
         display_name=_("Allow Public Wiki Access"),
