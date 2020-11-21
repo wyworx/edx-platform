@@ -343,6 +343,10 @@
                 exports: 'js/shoppingcart/shoppingcart',
                 deps: ['jquery', 'underscore', 'gettext']
             },
+            'js/student_account/html5-qrcode.min.js': {
+                exports: 'js/student_account/html5-qrcode.min.js',
+                deps: ['jquery', 'underscore', 'gettext']
+            },
             'js/ccx/schedule': {
                 exports: 'js/ccx/schedule',
                 deps: ['jquery', 'underscore', 'backbone', 'gettext', 'moment']
