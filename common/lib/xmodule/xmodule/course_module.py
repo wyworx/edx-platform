@@ -713,6 +713,20 @@ class CourseFields(object):
         ),
         scope=Scope.settings
     )
+    
+    course_public_address = String(
+        display_name=_("Bitcoin SV Public Address"),
+        help=_("Your Bitcoin SV public address. This is how you get paid."),
+        default=None,
+        scope=Scope.settings
+    )
+
+    course_private_key_id = String(
+        display_name=_("Bitcoin SV Private Address Identifier"),
+        help=_("Bitcoin SV private address identifier."),
+        default=None,
+        scope=Scope.settings
+    )
 
     allow_public_wiki_access = Boolean(
         display_name=_("Allow Public Wiki Access"),
