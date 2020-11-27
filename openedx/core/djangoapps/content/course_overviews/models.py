@@ -85,6 +85,8 @@ class CourseOverview(TimeStampedModel):
     incentive_amount = DecimalField(max_digits=5, decimal_places=2, null=True)
     budget_amount = DecimalField(max_digits=7, decimal_places=2, null=True)
     budget_remaining_amount = DecimalField(max_digits=7, decimal_places=2, null=True)
+    course_public_address = TextField(null=True)
+    course_private_key_id = TextField(null=True)
 
     # Access parameters
     days_early_for_beta = FloatField(null=True)
@@ -140,6 +142,8 @@ class CourseOverview(TimeStampedModel):
         incentive_amount = course.incentive_amount
         budget_amount = course.budget_amount
         budget_remaining_amount = course.budget_remaining_amount
+        course_public_address = course.course_public_address
+        course_private_key_id = course.course_private_key_id
 
         display_name = course.display_name
         start = course.start
@@ -188,6 +192,8 @@ class CourseOverview(TimeStampedModel):
         course_overview.incentive_amount = incentive_amount
         course_overview.budget_amount = budget_amount
         course_overview.budget_remaining_amount = budget_remaining_amount
+        course_overview.course_public_address = course_public_address
+        course_overview.course_private_key_id = course_private_key_id
         course_overview.end_of_course_survey_url = course.end_of_course_survey_url
 
         course_overview.days_early_for_beta = course.days_early_for_beta
