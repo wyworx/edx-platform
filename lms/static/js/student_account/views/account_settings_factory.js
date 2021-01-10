@@ -111,9 +111,9 @@
 
             publicAddressFieldData = {
                 model: userAccountModel,
-                title: gettext('BSV Address'),
+                title: gettext('Bitcoin SV Address or Paymail'),
                 valueAttribute: 'public_address',
-                helpMessage: gettext('Your BSV public address.'),
+                helpMessage: gettext('Your Bitcoin SV address or Paymail.'),
                 persistChanges: true
             };
             if (syncLearnerProfileData && enterpriseReadonlyAccountFields.fields.indexOf('public_address') !== -1) {
