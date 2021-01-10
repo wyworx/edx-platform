@@ -248,21 +248,50 @@ def validate_name(name):
         raise forms.ValidationError(_('Full Name cannot contain the following characters: < >'))
 
 
+# Validate Email
+def valid_email(email):
+    # pass the regular expression
+    # and the string in search() method
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+
+    if (re.search(regex, email)):
+        return True
+    else:
+        # check if it's a custom mail
+        regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+        if (re.search(regex, email)):
+            return True
+        else:
+            return False
+        
+
 def validate_public_address(public_address):
     """
         Verifies the public address is valid, raises a ValidationError otherwise.
         Args:
             public_address (unicode): The public_address to validate.
         """
-    
-    if len(public_address) < 25 or len(public_address) > 35:
-       raise forms.ValidationError(_('Public address is invalid'))
-    
-    request_url = "https://api.whatsonchain.com/v1/bsv/main/address/{}/info".format(public_address)
-    r = requests.get(request_url)
-    data = json.loads(r.text)
-    if not data['isvalid']:
-        raise forms.ValidationError(_('Public address is invalid'))
+
+    if valid_email(public_address):
+        request_url = "https://services.centbee.com/paymail/v1/{}".format(public_address)
+        headers = {'x-api-key': 'vJ1UKCh8l3aNtKbcwzq25hblcMCliuA1XCpyJa20'}
+
+        r = requests.get(request_url, headers=headers)
+        output = r.text
+        result = output.find('address')
+
+        if result == -1:
+            raise forms.ValidationError(_('Invalid Bitcoin SV Paymail.'))
+
+    else:
+        request_url = "https://api.whatsonchain.com/v1/bsv/main/address/{}/info".format(public_address)
+
+        r = requests.get(request_url)
+
+        data = json.loads(r.text)
+
+        if not data['isvalid']:
+            raise forms.ValidationError(_('Invalid Bitcoin SV public address.'))
 
 
 class UsernameField(forms.CharField):
