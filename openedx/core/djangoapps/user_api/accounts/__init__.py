@@ -10,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 NAME_MIN_LENGTH = 2
 NAME_MAX_LENGTH = 255
 
-PUBLIC_ADDRESS_MIN_LENGTH = 3
+PUBLIC_ADDRESS_MIN_LENGTH = 7
 
 # The minimum and maximum length for the username account field
 USERNAME_MIN_LENGTH = 2
