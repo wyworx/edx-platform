@@ -254,12 +254,12 @@ def valid_email(email):
     # and the string in search() method
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
-    if (re.search(regex, email)):
+    if (re.search(regex, email.lower())):
         return True
     else:
         # check if it's a custom mail
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
-        if (re.search(regex, email)):
+        if (re.search(regex, email.lower())):
             return True
         else:
             return False
@@ -273,6 +273,7 @@ def validate_public_address(public_address):
         """
 
     if valid_email(public_address):
+        public_address = public_address.lower()
         request_url = "https://services.centbee.com/paymail/v1/{}".format(public_address)
         headers = {'x-api-key': 'vJ1UKCh8l3aNtKbcwzq25hblcMCliuA1XCpyJa20'}
 
