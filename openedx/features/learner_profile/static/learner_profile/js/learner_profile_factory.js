@@ -115,10 +115,10 @@
                 }),
 
                 new FieldsView.ReadonlyFieldView({
-                    title: gettext('Money Earned'),
+                    title: gettext('Money Earned USD'),
                     titleVisible: true,
                     model: accountSettingsModel,
-                    screenReaderTitle: gettext('Money Earned'),
+                    screenReaderTitle: gettext('Money Earned USD'),
                     valueAttribute: 'money_earned',
                     helpMessage: ''
                 }),
