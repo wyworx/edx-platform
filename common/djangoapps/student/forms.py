@@ -273,15 +273,36 @@ def validate_public_address(public_address):
         """
 
     if valid_email(public_address):
+        # validate paymail using bsvalias.org specification
+
+        # 1 do a service discovery
+
+        # extract the domain from the paymail address
         public_address = public_address.lower()
-        request_url = "https://services.centbee.com/paymail/v1/{}".format(public_address)
-        headers = {'x-api-key': 'vJ1UKCh8l3aNtKbcwzq25hblcMCliuA1XCpyJa20'}
+        length = len(public_address)
+        pos = public_address.find('@')
+        domain = public_address[pos+1:length]
 
-        r = requests.get(request_url, headers=headers)
+        request_url = "https://www.{}/.well-known/bsvalias".format(domain)
+        r = requests.get(request_url)
         output = r.text
-        result = output.find('address')
+        result = output.find('pki')
 
-        if result == -1:
+        # 2 extract the pki url
+
+        if result > -1:
+            data = json.loads(r.text)
+            request_url = data['capabilities']['pki']
+
+            # 3 use the pki url to get the public key given the paymail address
+
+            request_url = request_url.replace("{alias}@{domain.tld}", public_address)
+            r = requests.get(request_url)
+            output = r.text
+            result = output.find('pubkey')
+            if result == -1:
+                raise forms.ValidationError(_('Invalid Bitcoin SV Paymail.'))
+        else:
             raise forms.ValidationError(_('Invalid Bitcoin SV Paymail.'))
 
     else:
